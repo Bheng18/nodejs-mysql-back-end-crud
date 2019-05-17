@@ -27,23 +27,25 @@ router.get('/:id', (req, res) => {
     });
     
     // //delete employee id
-    router.delete('/:id', (req, res) => {
+    router.delete('/delete/:id', (req, res) => {
       let sql = 'DELETE FROM employeetbl WHERE empId = ?';
-        mysqlConnection.query(sql, [req.params.id], (err, rows, fields) => {
-              if(!err)
-               // console.log(rows);
-                 res.send('dELETED successfully');
-              else
+        mysqlConnection.query(sql, req.params.id, (err, rows, fields) => {
+              if(!err){
+                //  console.log(rows);
+                 res.json('dELETED successfully'); //res.send() nag error siya
+              }else{
                 console.log(err);
-           })
+              }
+           });
     });
     
     
         //add employee 
-    router.post('/', (req, res) => {
+    router.post('/add', (req, res) => {
         let employees = req.body;
-        let sql = `INSERT INTO employeetbl (name, contact, email, address) VALUES(?, ?, ?, ?)`;
-        mysqlConnection.query(sql, [employees.name, employees.contact, employees.email, employees.address], 
+        let sql = `INSERT INTO employeetbl (fullName, email, mobile, city, gender, department, hireDate, isPermanent) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`;
+        mysqlConnection.query(sql, 
+          [employees.fullName, employees.email, employees.mobile, employees.city, employees.gender, employees.department, employees.hireDate, employees.isPermanent], 
          (err, rows, fields) => {
               if(!err)
                // console.log(rows);
@@ -54,13 +56,13 @@ router.get('/:id', (req, res) => {
     });
     
         //update employee 
-        router.put('/:id', (req, res) => {
+        router.put('/update/:id', (req, res) => {
           let id = req.params.id;
           let employees = req.body;
           let sql = `UPDATE employeetbl 
-                     SET name=?, contact=?, email=?, address=?
+                     SET fullName=?, email=?, mobile=?, city=?, gender=?, department=?, hireDate=?, isPermanent=?
                      WHERE empId=?`;
-          let data = [employees.name, employees.contact, employees.email, employees.address, id];
+          let data = [employees.fullName, employees.email, employees.mobile, employees.city, employees.gender, employees.department, employees.hireDate, employees.isPermanent, id];
           mysqlConnection.query(sql, data, (err, rows, fields) => {
                 if(!err)
                  // console.log(rows);

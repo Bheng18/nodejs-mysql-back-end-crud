@@ -4,13 +4,15 @@ const express = require('express');
 var app = express();
 const bodyParser = require('body-parser');
 // const { getAllEmployeeRoute, getOneEmployeeRoute, postEmployeeRoute, deleteEmployeeRoute, updateEmployeeRoute } = require('./src/routes/employeeRouter')
-const getEmployeeRoute = require('./src/routes/employeeRouter')
+const getEmployeeRoute = require('./src/routes/employeeRouter');
+// const codility = require('./src/routes/codility');
 
-// const cors = require('cors');
+
+const cors = require('cors');
 // var data = require('./public/data');
 
 //configurration of body parser
-// app.use(cors());
+app.use(cors());
 // app.use(morgan('common'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -23,6 +25,8 @@ var PORT = 3000;
 
 //router
 app.use('/', getEmployeeRoute);
+// app.use('/add', getEmployeeRoute);
+// app.use('/codility', codility);
 
 app.listen(PORT, console.log(`connected in port ${PORT}`));
 
